@@ -56,7 +56,7 @@ describe('UserController', () => {
             .post('/api/users/login')
             .send({ login: 'user1', password: '1234' });
         expect(res.status).to.equal(200);
-        expect(res.body).to.have.property('message', 'Login realizado com sucesso');
+        expect(res.body).to.have.property('message', 'Login realizado com, sucesso');
         expect(res.body.user).to.deep.equal({ login: 'user1' });
         expect(loginStub.calledOnce).to.be.true;
     });
