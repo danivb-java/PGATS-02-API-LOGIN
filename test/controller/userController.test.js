@@ -60,4 +60,6 @@ describe('UserController', () => {
         expect(res.body.user).to.deep.equal({ login: 'user1' });
         expect(loginStub.calledOnce).to.be.true;
     });
+
+    // adicionando linha para PR
 });
