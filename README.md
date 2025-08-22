@@ -42,3 +42,4 @@ Acesse [http://localhost:3000/api-docs](http://localhost:3000/api-docs) após in
 ## Observações
 - Os dados dos usuários são mantidos apenas em memória (array), sem persistência.
 - Não utilize em produção.
+# PGATS-02-API-LOGIN
