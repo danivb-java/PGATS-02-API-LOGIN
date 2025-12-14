@@ -1,17 +1,21 @@
-const users = [];
+const bcrypt = require('bcryptjs');
 
-function findByLogin(login) {
-  return users.find(user => user.login === login);
-}
+// In-memory user database
+const users = [
+  {
+    username: 'julio', 
+    password: bcrypt.hashSync('123456', 8), 
+    favorecidos: [ 'priscila' ], 
+    saldo: 10000
+  },
+  {
+    username: 'priscila', 
+    password: bcrypt.hashSync('123456', 8), 
+    favorecidos: [ 'julio' ], 
+    saldo: 10000
+  }
+];
 
-function create(login, password) {
-  const user = { login, password };
-  users.push(user);
-  return { login: user.login };
-}
-
-function reset() {
-  users.length = 0;
-}
-
-module.exports = { findByLogin, create, reset };
+module.exports = {
+  users
+};

@@ -1,19 +1,29 @@
-const User = require('../model/userModel');
+const { users } = require('../model/userModel');
+const bcrypt = require('bcryptjs');
 
-async function registerUser(login, password) {
-  const existingUser = User.findByLogin(login);
-  if (existingUser) {
-    throw new Error('Usuário já registrado.');
-  }
-  return User.create(login, password);
+function findUserByUsername(username) {
+  return users.find(u => u.username === username);
 }
 
-async function loginUser(login, password) {
-  const user = User.findByLogin(login);
-  if (!user || user.password !== password) {
-    throw new Error('Login ou senha inválidos.');
+function registerUser({ username, password, favorecidos = [] }) {
+  if (findUserByUsername(username)) {
+    throw new Error('Usuário já existe');
   }
-  return { login: user.login };
+  const hashedPassword = bcrypt.hashSync(password, 8);
+  const user = { username, password: hashedPassword, favorecidos, saldo: 10000 };
+  users.push(user);
+  return { username, favorecidos, saldo: user.saldo };
 }
 
-module.exports = { registerUser, loginUser };
+function loginUser({ username, password }) {
+  const user = findUserByUsername(username);
+  if (!user) throw new Error('Usuário não encontrado');
+  if (!bcrypt.compareSync(password, user.password)) throw new Error('Senha inválida');
+  return { username: user.username, favorecidos: user.favorecidos, saldo: user.saldo };
+}
+
+function listUsers() {
+  return users.map(u => ({ username: u.username, favorecidos: u.favorecidos, saldo: u.saldo }));
+}
+
+module.exports = { registerUser, loginUser, listUsers, findUserByUsername };

@@ -2,30 +2,34 @@ const express = require('express');
 const router = express.Router();
 const userService = require('../service/userService');
 
-router.post('/register', async (req, res) => {
-  const { login, password } = req.body;
-  if (!login || !password) {
-    return res.status(400).json({ message: 'Login e senha são obrigatórios.' });
-  }
+router.post('/register', (req, res) => {
+  const { username, password, favorecidos } = req.body;
+  if (!username || !password) return res.status(400).json({ error: 'Usuário e senha obrigatórios' });
   try {
-    const user = await userService.registerUser(login, password);
+    const user = userService.registerUser({ username, password, favorecidos });
     res.status(201).json(user);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ error: err.message });
   }
 });
 
-router.post('/login', async (req, res) => {
-  const { login, password } = req.body;
-  if (!login || !password) {
-    return res.status(400).json({ message: 'Login e senha são obrigatórios.' });
-  }
+router.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password) return res.status(400).json({ error: 'Usuário e senha obrigatórios' });
   try {
-    const user = await userService.loginUser(login, password);
-    res.status(200).json({ message: 'Login realizado com sucesso', user });
+    const user = userService.loginUser({ username, password });
+    // Gerar token JWT
+    const jwt = require('jsonwebtoken');
+    const SECRET = process.env.JWT_SECRET || 'secretdemo';
+    const token = jwt.sign({ username: user.username }, SECRET, { expiresIn: '1h' });
+    res.json({ user, token });
   } catch (err) {
-    res.status(401).json({ message: err.message });
+    res.status(400).json({ error: err.message });
   }
+});
+
+router.get('/', (req, res) => {
+  res.json(userService.listUsers());
 });
 
 module.exports = router;
