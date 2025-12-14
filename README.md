@@ -83,14 +83,14 @@ Para dúvidas, consulte a documentação Swagger, GraphQL Playground ou o códig
 ## Testes de Performance usando o K6
 Conceitos empregados:
 
-- **Thresholds:**
+### Thresholds:
  - O código abaixo está armazenado no arquivo test/k6/login.test.js e demontra o uso do conceito de Thresholds. Mostra os valores maximos e minimos aceitaveis para metricas de desempenho. 
   - No trecho de codigo abaixo, ele define que, 95% das requisicoes devem responder em menos de 3 segundos.
     - thresholds: {
         http_req_duration: ['p(95)<2000'],
       },
 
-- **Checks:**
+### Checks:
  - Esse conceito é usado para fazer assercoes (validacoes) aplicadas a resposta de uma requisicao.
 Nesse projeto, esse conceito foi usado em dois arquivos.
  - O código abaixo está armazenado no arquivo test/k6/login.test.js
@@ -101,7 +101,7 @@ Nesse projeto, esse conceito foi usado em dois arquivos.
  - O código abaixo está armazenado no arquivo test/k6/helpers/login.js. O trecho de codigo verifica se o status code de resposta da requisicao é igual a 200.  
     - check(res, { 'login status is 200': (r) => r.status === 200 });
 
-- **Helpers:**
+### Helpers:
  - A importancia de usar esse conceito é modularizar, criar funções utilitárias que ajudam a escrever scripts mais limpos, reutilizáveis e fáceis de manter. São criadas para encapsular tarefas repetitivas.
  - Foram criadas as pastas:
     - test/k6/helpers/getBaseUrl.js, onde contem a funcao que chama a pagina (URL) do projeto.
@@ -116,7 +116,7 @@ Nesse projeto, esse conceito foi usado em dois arquivos.
     -  const url = `${getBaseUrl()}/users/register`;
     -  const { token, res } = loginUser(username, password);
 
-- **Trends:**
+### Trends:
  - O código abaixo está armazenado no arquivo test/k6/login.test.js e demontra desse conceito, que é usado para geracao de métrica e estatísticas como: média (avg), mínimo (min), máximo (max), percentis (p(90), p(95), p(99)).
     - thresholds: {
         http_req_duration: ['p(95)<3000'],
@@ -125,7 +125,7 @@ Nesse projeto, esse conceito foi usado em dois arquivos.
  - O código abaixo está armazenado no arquivo test/k6/helpers/login.js
     - export const loginTrend = new Trend('login_duration');
 
-- **Faker:** 
+### Faker:
  - O código abaixo está armazenado no arquivo test/k6/helpers/random.js e demonstra o uso do conceito de Faker que é uma bibliotecas de geração de dados falsos cria dados de teste realistas durante os testes de performance.
     - export function generateRandomEmail() {
         return faker.person.email();
@@ -138,12 +138,12 @@ Nesse projeto, esse conceito foi usado em dois arquivos.
     - username = generateRandomUsername();
     - email = generateRandomEmail(); 
 
-- **Variável de Ambiente:**
+### Variável de Ambiente:
  - O código abaixo está armazenado no arquivo test/k6/helpers/getBaseUrl.js e demonstra o uso do conceito de uma variavel de ambiente utilizada para executar o mesmo teste em varios ambiente.
     - return __ENV.BASE_URL;
  - Com essa variaveis, o ambiente pode ser defivido na linha de comando, na chamada da execucao. EX: k6 run -e BASE_URL=http://localhost:3001   test/k6/login.test.js
 
-- **Stages:**
+### Stages:
  - O código abaixo está armazenado no arquivo test/k6/login.test.js e demonstra o uso do conceito Stages, usado para definir como a carga (usuários virtuais) varia ao longo do tempo durante um teste de performance. Descreve ritmo do teste: subir carga, manter, e depois reduzir.
     - stages: [
             { duration: '3s', target: 5 },     // Ramp up
@@ -154,7 +154,7 @@ Nesse projeto, esse conceito foi usado em dois arquivos.
             { duration: '5s', target: 0 },      // Ramp up
       ],
 
-- **Reaproveitamento de Resposta:**
+### Reaproveitamento de Resposta:
  - Esse conceito usa dados retornados por uma requisição para alimentar requisições seguintes, simulando um fluxo real de usuário.
  - O código abaixo está armazenado no arquivo test/k6/login.test.js e demontra o uso desse conceito, reutilizando dados de uma lista.
     - const user = data[(__VU - 1) % data.length];
@@ -167,7 +167,7 @@ Nesse projeto, esse conceito foi usado em dois arquivos.
     - const token = res.json('token');
     - return { token, res };
 
-- **Uso de Token de Autenticação:**
+### Uso de Token de Autenticação:
  - O código abaixo está armazenado no arquivo test/k6/login.test.js e demontra o uso de Token de Autenticação e tambem a validacao para verificar se esta sendo gerado corretamente.
     - const { token, res } = loginUser(username, password);
     - check(res, { 'token is present': (r) => !!r.json('token') });
@@ -175,14 +175,14 @@ Nesse projeto, esse conceito foi usado em dois arquivos.
     - const token = res.json('token');
     - return { token, res };
 
-- **Data-Driven Testing:**
+### Data-Driven Testing:
  - O código abaixo está armazenado no arquivo test/k6/login.test.js e demontra o uso do conceito executando o mesmo script.JSON de teste (test/k6/data/login.test.data.json) usando diferentes conjuntos de dados, simulando usuários distintos e cenários reais, sem alterar a lógica do teste.
     - import { SharedArray } from 'k6/data';
     - const data = new SharedArray('user', function () {
         return JSON.parse(open('./data/login.test.data.json'));
       });
 
-- **Groups:**
+### Groups:
  - O código abaixo está armazenado no arquivo test/k6/login.test.js e demontra o uso do conceito de Groups e dentro dele faço uso de um Helper, uma função de registro e outra funcao de login, que foi importada de um outro script javascript.
     - group('register user', () => {
           username = generateRandomUsername();
@@ -195,7 +195,7 @@ Nesse projeto, esse conceito foi usado em dois arquivos.
           check(res, { 'register status is 201': (r) => r.status === 201 });
         });
 
-      - group('login user', () => {
+    - group('login user', () => {
           const { token, res } = loginUser(username, password);
           check(res, { 'token is present': (r) => !!r.json('token') });
         });
