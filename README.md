@@ -1,6 +1,7 @@
 # API de Transferências e Usuários
 
 Esta API permite o registro, login, consulta de usuários e transferências de valores entre usuários. O objetivo é servir de base para estudos de testes e automação de APIs.
+E tambem para testes de performance.
 
 ## Tecnologias
 - Node.js
