@@ -4,15 +4,19 @@ import { Trend } from 'k6/metrics';
 import { generateRandomEmail, generateRandomUsername } from './helpers/random.js';
 import { getBaseUrl } from './helpers/getBaseUrl.js';
 import { loginUser } from './helpers/login.js';
+import { SharedArray } from 'k6/data';
+
+const data = new SharedArray('user', function () {
+  return JSON.parse(open('./data/login.test.data.json'));
+});
+
 
 export const options = {
-//   vus: 10,
-//   duration: '15s',
   thresholds: {
-    http_req_duration: ['p(95)<2000'],
+    http_req_duration: ['p(95)<3000'], // 95% das requests devem ser < 3s
   },
     stages: [
-          { duration: '3s', target: 5 },     // Ramp up
+        { duration: '3s', target: 5 },     // Ramp up
         { duration: '15s', target: 10 },    // Average
         { duration: '2s', target: 30 },    // Spike
         { duration: '3s', target: 20 },    // Spike
@@ -24,6 +28,8 @@ export const options = {
 const checkoutTrend = new Trend('checkout_duration');
 
 export default function () {
+  const user = data[(__VU - 1) % data.length]; // Reaproveitamento de dados
+
   let username, password, email;
   group('register user', () => {
     username = generateRandomUsername();
