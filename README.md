@@ -81,12 +81,29 @@ Rode `npm run start-graphql` para executar a API do GraphQL e acesse a URL http:
 
 Para dúvidas, consulte a documentação Swagger, GraphQL Playground ou o código-fonte.
 
+---
+---
+
+
 ## Testes de Performance usando o K6
 Testes de performance são realizados com o k6, uma ferramenta moderna para testes de carga.
 
 ### Pré-requisito:
-- O arquivo `K6` deve ser instalado na maquina onde os testes serao executados.
+- K6 customizado com extensão faker (k6.exe no diretório raiz do projeto). O arquivo `K6` deve ser instalado na maquina onde os testes serao executados.
 - Para instalacao, use o documento: `https://grafana.com/docs/k6/latest/set-up/install-k6/`
+- Go 1.23+ e xk6 (para rebuild do K6, se necessário)
+
+### Estrutura de Arquivos
+  ```sh
+        test/k6/
+  ├── login.test.js               # Script principal de testes
+  ├── data/
+  │   └── login.test.data.json    # Dados de usuários para testes
+  └── helpers/
+      ├── getBaseUrl.js           # Helper para URL base
+      ├── login.js                # Helper para autenticação
+      └── random.js               # Helper para geração de dados aleatórios
+  ```
 
 ### Como executar o teste de performance
 - Certifique-se de que a API REST está rodando: 
