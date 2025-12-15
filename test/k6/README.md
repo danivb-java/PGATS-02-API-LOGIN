@@ -9,7 +9,7 @@ Testes de performance são realizados com o k6, uma ferramenta moderna para test
 - Certifique-se de que a API REST está rodando: 
   ```sh
   node server.js
-  ```.
+  ```
 - Execute o teste de performance:
   ```sh
   k6 run test/k6/login.test.js
@@ -91,9 +91,9 @@ Testes de performance são realizados com o k6, uma ferramenta moderna para test
     ```
     - Os Helpers sao importados para o arquivo de teste test/k6/login.test.js e usados dentros das funcoes deste arquivo:
     ```sh
-    import { generateRandomEmail, generateRandomUsername } from './helpers/random.js';
-    import { getBaseUrl } from './helpers/getBaseUrl.js';
-    import { loginUser } from './helpers/login.js';
+        import { generateRandomEmail, generateRandomUsername } from './helpers/random.js';
+        import { getBaseUrl } from './helpers/getBaseUrl.js';
+        import { loginUser } from './helpers/login.js';
     ```
 
 ### Trends:
@@ -118,7 +118,7 @@ Testes de performance são realizados com o k6, uma ferramenta moderna para test
       export function generateRandomEmail() {
         return faker.person.email();
       }
-    - export function generateRandomUsername() {
+      export function generateRandomUsername() {
         return faker.internet.username();
       }
   ```
@@ -146,7 +146,7 @@ Testes de performance são realizados com o k6, uma ferramenta moderna para test
       }
   ```
   - Neste exemplo, a função verifica se existe uma variável de ambiente BASE_URL definida através de __ENV.BASE_URL. Se não existir, utiliza o valor padrão 'http://localhost:3001'.
-  - Outra forma de utilizar essa variavel é definindo o ambiente onde o teste sera executado atraves da linha de comando, na chamada da execucao. EX: `k6 run -e BASE_URL=http://localhost:3001  test/k6/login.test.js`
+  - Outra forma de utilizar essa variavel é definindo o ambiente onde o teste sera executado atraves da linha de comando, na chamada da execucao. Exemplo: `k6 run -e BASE_URL=http://localhost:3001 test/k6/login.test.js`
 
 ### Stages:
  - O código abaixo está armazenado no arquivo test/k6/login.test.js e demonstra o uso do conceito Stages, usado para definir como a carga (usuários virtuais) varia ao longo do tempo durante um teste de performance. Descreve o ritmo do teste: subir carga, manter, e depois reduzir.
