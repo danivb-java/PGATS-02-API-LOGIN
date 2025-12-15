@@ -13,15 +13,15 @@ const data = new SharedArray('user', function () {
 
 export const options = {
   thresholds: {
-    http_req_duration: ['p(95)<3000'], // 95% das requests devem ser < 3s
+    http_req_duration: ['p(95)<3000'],
   },
     stages: [
-        { duration: '3s', target: 5 },     // Ramp up
-        { duration: '15s', target: 10 },    // Average
-        { duration: '2s', target: 30 },    // Spike
-        { duration: '3s', target: 20 },    // Spike
-        { duration: '5s', target: 10 },     // Average
-        { duration: '5s', target: 0 },      // Ramp up
+        { duration: '3s', target: 5 },
+        { duration: '15s', target: 10 },
+        { duration: '2s', target: 30 },
+        { duration: '10s', target: 20 },
+        { duration: '8s', target: 10 },
+        { duration: '5s', target: 0 },
     ],
 };
 
