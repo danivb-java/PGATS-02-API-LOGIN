@@ -82,7 +82,6 @@ Para dúvidas, consulte a documentação Swagger, GraphQL Playground ou o códig
 ---
 
 ## Testes de Performance usando o K6
----
 Testes de performance são realizados com o k6, uma ferramenta moderna para testes de carga.
 
 ### Pré-requisito:
@@ -92,10 +91,10 @@ Testes de performance são realizados com o k6, uma ferramenta moderna para test
 
 ### Estrutura de Arquivos
   ```sh
-        test/k6/
+  test/k6/
   ├── login.test.js               # Script principal de testes
   ├── data/
-  │   └── login.test.data.json    # Dados de usuários para testes
+  │   └── login.test.data.json    # Dados ficticios de usuários para testes
   └── helpers/
       ├── getBaseUrl.js           # Helper para URL base
       ├── login.js                # Helper para autenticação
@@ -305,7 +304,7 @@ Testes de performance são realizados com o k6, uma ferramenta moderna para test
   ``` 
 
 ### Data-Driven Testing:
-- O código abaixo está armazenado no arquivo test/k6/data/login.test.data.json e demontra o uso do conceitoque permite executar testes com diferentes conjuntos de dados carregados de arquivos externos. Este arquivo externo contém um array de objetos com credenciais de diferentes usuários e ermite adicionar ou modificar usuários de teste sem alterar o código.
+- O código abaixo está armazenado no arquivo test/k6/data/login.test.data.json e demontra o uso do conceito que permite executar testes com diferentes conjuntos de dados carregados de arquivos externos. Este arquivo externo contém um array de objetos com credenciais de diferentes usuários. Dessa forma, é possivel adicionar ou modificar usuários de teste sem alterar o código.
   ```sh 
       [
         {
