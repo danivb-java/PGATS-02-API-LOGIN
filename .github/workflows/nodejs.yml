@@ -20,7 +20,7 @@ jobs:
         node-version: '20.x'
 
     - name: Install dependencies
-      run: npm install
+      run: npm ci
 
     - name: Rodar os testes de API via Controller
       run: npm run test-rest-controller

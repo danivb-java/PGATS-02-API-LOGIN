@@ -28,7 +28,7 @@
     "chai-exclude": "^2.1.1",
     "dotenv": "^17.2.2",
     "jsonwebtoken": "^9.0.2",
-    "mocha": "^11.7.1",
+    "mocha": "^11.7.5",
     "mochawesome": "^7.1.3",
     "sinon": "^21.0.0",
     "supertest": "^7.1.4"
